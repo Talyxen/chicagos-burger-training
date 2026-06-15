@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique // "Hamburguesas", "Hot Dogs", "Salchipapas"
+  products Product[]
+}
+
+model Product {
+  id             String    @id @default(cuid())
+  name           String    @unique
+  categoryId     String
+  category       Category  @relation(fields: [categoryId], references: [id])
+  imageUrl       String?
+  estimatedTime  Int?      // En minutos
+  observations   String?
+  
+  ingredients    ProductIngredient[]
+  steps          Step[]
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Ingredient {
+  id          String              @id @default(cuid())
+  name        String              @unique
+  details     String?             // e.g. "150 g carne, 30 g mozzarella" para "Carne Mozzarella"
+  products    ProductIngredient[]
+}
+
+model ProductIngredient {
+  id           String     @id @default(cuid())
+  productId    String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  notes        String?
+  
+  @@unique([productId, ingredientId])
+}
+
+model Step {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order       Int
+  description String
+
+  @@unique([productId, order])
+}
