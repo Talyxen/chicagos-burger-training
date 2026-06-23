@@ -21,16 +21,16 @@ async function main() {
     create: { name: 'Hot Dogs' },
   })
 
-  const catSalchipapas = await prisma.category.upsert({
-    where: { name: 'Salchipapas' },
-    update: {},
-    create: { name: 'Salchipapas' },
-  })
+  // const catSalchipapas = await prisma.category.upsert({
+  //   where: { name: 'Salchipapas' },
+  //   update: {},
+  //   create: { name: 'Salchipapas' },
+  // })
 
   // Helper para productos
   const createProduct = async (
     name: string,
-    category: any,
+    category: { id: string },
     steps: string[],
     ingredientNames: string[]
   ) => {
@@ -80,7 +80,7 @@ async function main() {
             ingredientId: ingredient.id,
           },
         })
-      } catch (e) {
+      } catch (_e) {
         // Ignorar si ya existe
       }
     }

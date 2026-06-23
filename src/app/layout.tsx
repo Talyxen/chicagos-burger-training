@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import styles from "./layout.module.css";
 import { Utensils } from "lucide-react";
@@ -30,14 +31,14 @@ export default function RootLayout({
             
             <ul className={styles.navLinks}>
               <li>
-                <a href="/" className={styles.navItem}>
+                <Link href="/" className={styles.navItem}>
                   Dashboard
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/admin" className={styles.navItem}>
+                <Link href="/admin" className={styles.navItem}>
                   Administración
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
